@@ -41,6 +41,16 @@ repositories {
 }
 
 apply plugin: 'java'
+apply plugin: 'com.jprotechnologies.jpro'
 apply plugin: 'de.sandec.simplefx'
 
-mainClassName = 'hello.world.Main'
+dependencies {
+    compile 'com.neovisionaries:nv-websocket-client:1.30'
+    compile 'org.scalaj:scalaj-http_2.11:2.3.0'
+    compile 'com.lihaoyi:upickle_2.11:0.4.3'
+}
+
+jpro {
+    jproVersion = "0.1.8-SNAPSHOT"
+}
+mainClassName = 'com.fk.neuralnet.Main'

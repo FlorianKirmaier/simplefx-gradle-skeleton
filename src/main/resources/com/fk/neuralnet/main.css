@@ -1,0 +1,76 @@
+
+.main {
+  -fx-padding: 15;
+}
+.header {
+  -fx-background-color: #DDD;
+  -fx-padding: 15px;
+  -fx-font-size: 30px;
+  -fx-background-radius: 10
+}
+
+.graph {
+  -fx-background-color: #eee;
+  -fx-border-color: #999;
+  -fx-border-width: 2px;
+}
+
+.corner .circle {
+  -fx-stroke: grey;
+  -fx-stroke-width:1.5;
+}
+.corner:focused .circle {
+  -fx-stroke: blue;
+  -fx-stroke-width:3;
+}
+.corner-focused {
+  -fx-font-weight: bold;
+}
+.corner:focused * {
+  -fx-font: bold 12pt "Arial";
+}
+
+.corner-predicted {
+  -fx-stroke: darkblue;
+  -fx-stroke-width:5;
+}
+
+.edge .arrow * {
+  -fx-stroke-width: 1.5;
+  -fx-stroke: lightgrey;
+}
+.edge-focused .arrow * {
+  -fx-stroke-width: 3;
+  -fx-stroke: darkgrey;
+}
+.edge * {
+  -fx-font: 10pt "Arial";
+}
+.edge-focused  * {
+  -fx-font: bold 10pt "Arial";
+}
+
+.selection .button{
+  -fx-background-color: #DDD;
+}
+
+.selection .button:hover{
+  -fx-background-color: #BBB;
+}
+
+.selection .button:focused{
+  -fx-background-color: #99f;
+}
+
+
+.predict .predict-button{
+  -fx-background-color: #eee;
+  -fx-padding: 10px;
+  -fx-font-size: 30px;
+
+  -fx-border-color: #666;
+  -fx-border-width: 2px;
+}
+.predict .predict-button:focused {
+  -fx-background-color: #99f;
+}
