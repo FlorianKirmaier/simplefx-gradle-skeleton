@@ -19,6 +19,14 @@ class NeuralNetworkGraph(view: View) extends Graph{ GRAPH =>
     }
   }
 
+  @Bind val background = new Rectangle {
+    fill = Color.TRANSPARENT
+    wh <-- GRAPH.wh
+    onClick --> {
+      GRAPH.requestFocus()
+    }
+  }
+
   var cornerMap = Map[Int,Corner]()
   def updateContent(x: Result) = {
 
@@ -26,16 +34,16 @@ class NeuralNetworkGraph(view: View) extends Graph{ GRAPH =>
     val layersCount = layers.length
     val maxLayerSize = layers.map(_.neuralNetNodeList.length).max
 
-    val graphRadius = minmax(0,200 / maxLayerSize,40)
-    val xOffset = (1200 - layersCount * graphRadius * 6) / 2
+    val graphRadius = minmax(0,(height - 50) / 3 / maxLayerSize,40)
+    val xOffset = graphRadius * 3 + (width - layersCount * graphRadius * 6) / 2
 
     layers.zipWithIndex.map { case (layer,x) =>
       val nodes = layer.neuralNetNodeList
-      val height = nodes.length
+      val numberNodes = nodes.length
       nodes.zipWithIndex.foreach { case (node,i) =>
-        val yOffset = i + (maxLayerSize - height) / 2
+        val yOffset = (height / 2) + (i - numberNodes / 2) * graphRadius * 3 + graphRadius
         val id = node.id
-        val corner = cornerMap.getOrElse(id, new Corner(xOffset + x * graphRadius * 6, 100 + yOffset * graphRadius * 3 + (if(x % 2 == 0) graphRadius else 0)))
+        val corner = cornerMap.getOrElse(id, new Corner(xOffset + x * graphRadius * 6, yOffset + (if(x % 2 == 0) graphRadius else 0)))
         corner.text = node.label
         corner.image = Image.cached(node.image)
         corner.radius = graphRadius
@@ -48,7 +56,7 @@ class NeuralNetworkGraph(view: View) extends Graph{ GRAPH =>
 
     updateCorners(x.edges)
 
-    children = (cornerMap.values ++ edgeMap.values).toList
+    children = background :: (cornerMap.values ++ edgeMap.values).toList
   }
 
   var edgeMap = Map[(Corner, Corner), Edge]()

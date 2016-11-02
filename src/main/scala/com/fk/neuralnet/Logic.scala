@@ -48,27 +48,29 @@ trait Logic { this: View =>
     val graph = new NeuralNetworkGraph(this)
     currentGraph = graph
 
-    val ws = new WebSocketFactory().createSocket(s"ws://$server/counter")
-    ws.addListener(new WebSocketAdapter {
-      override def onTextMessage(client: WebSocket, str: String): Unit = {
-        import upickle.default._
-        try {
-          val res = read[Result](str)
-          simplefx.core.inFX{
-            println("updating!")
-            graph.updateContent(res)
+    when(graph.height != 0) --> { // let's make sure, that the width/height of the NeuralNetworkGraph is set
+      val ws = new WebSocketFactory().createSocket(s"ws://$server/counter")
+      ws.addListener(new WebSocketAdapter {
+        override def onTextMessage(client: WebSocket, str: String): Unit = {
+          import upickle.default._
+          try {
+            val res = read[Result](str)
+            simplefx.core.inFX{
+              println("updating!")
+              graph.updateContent(res)
+            }
+          } catch {
+            case e: Throwable =>
+              println(s"error while parsing: " + e.getMessage)
+              println("### start ###")
+              println(str)
+              println("### end ###")
           }
-        } catch {
-          case e: Throwable =>
-            println(s"error while parsing: " + e.getMessage)
-            println("### start ###")
-            println(str)
-            println("### end ###")
         }
-      }
-    })
-    ws.connect()
-    ws.sendText("{\"name\":\"" + samplename + "\"}")
-    wsDisp = simplefx.core.Disposer(ws.disconnect())
+      })
+      ws.connect()
+      ws.sendText("{\"name\":\"" + samplename + "\"}")
+      wsDisp = simplefx.core.Disposer(ws.disconnect())
+    }
   }
 }

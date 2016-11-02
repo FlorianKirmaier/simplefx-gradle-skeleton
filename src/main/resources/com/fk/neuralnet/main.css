@@ -36,11 +36,9 @@
 }
 
 .edge .arrow * {
-  -fx-stroke-width: 1.5;
   -fx-stroke: lightgrey;
 }
 .edge-focused .arrow * {
-  -fx-stroke-width: 3;
   -fx-stroke: darkgrey;
 }
 .edge * {
