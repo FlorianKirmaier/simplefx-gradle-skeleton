@@ -47,10 +47,9 @@
   -fx-background-color: #BBB;
 }
 
-.selection .button:focused{
+.selection .button:selected{
   -fx-background-color: #99f;
 }
-
 
 .predict .predict-button{
   -fx-background-color: #eee;

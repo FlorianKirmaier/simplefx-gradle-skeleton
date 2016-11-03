@@ -16,7 +16,8 @@ class View extends StackPane with Logic {
     styleClass ::= "selection"
     spacing      = 5
 
-    class Box(x: String) extends Button(x) { prefWidthProp = 200 }
+    val grp = new ToggleGroup
+    class Box(x: String) extends ToggleButton(x) { styleClass ::= "button"; prefWidthProp = 200; setToggleGroup(grp) }
     samplenames.map { case (text,name) =>
       <++(new Box(text){ onAction --> openSample(name)})
     }
