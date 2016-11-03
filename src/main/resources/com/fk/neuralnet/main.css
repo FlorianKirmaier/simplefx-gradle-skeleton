@@ -26,9 +26,6 @@
 .corner-focused {
   -fx-font-weight: bold;
 }
-.corner:focused * {
-  -fx-font: bold 12pt "Arial";
-}
 
 .corner-predicted {
   -fx-stroke: darkblue;
@@ -40,12 +37,6 @@
 }
 .edge-focused .arrow * {
   -fx-stroke: darkgrey;
-}
-.edge * {
-  -fx-font: 10pt "Arial";
-}
-.edge-focused  * {
-  -fx-font: bold 10pt "Arial";
 }
 
 .selection .button{

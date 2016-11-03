@@ -14,6 +14,9 @@ class Graph extends Pane {
     @Bind var radius = 20.0
     @Bind var image: Image = null
 
+    def fontWeight = if(focused) FontWeight.BOLD else FontWeight.NORMAL
+    @Bind var font = <--(javafx.scene.text.Font.font("Arial", fontWeight, radius / 2.5))
+
     styleClass ::= "corner"
     onClick --> requestFocus
     layoutXY = (posx,posy)
@@ -25,14 +28,17 @@ class Graph extends Pane {
       fill        <-- (if(CORNER.image == null) Color.TRANSPARENT else new ImagePattern(CORNER.image))
     }
     @Bind val label = new Label {
-      this.text <-- CORNER.text
-      fontSize   =  15
-      layoutXY  <-- (0,radius + 5) + labXY - (labW / 2, 0)
+      this.text    <-- CORNER.text
+      this.font    <-- CORNER.font
+      textAlignment =  TextAlignment.CENTER
+      layoutXY     <-- (0,radius + radius / 8) + labXY - (labW / 2, 0)
     }
     this <++ new Label {
-      this.text <-- CORNER.innerText
-      fontSize   =  15
-      layoutXY  <-- labXY - labWH / 2
+      this.text    <-- CORNER.innerText
+      //fontSize      =  12
+      this.font    <-- CORNER.font
+      textAlignment =  TextAlignment.CENTER
+      layoutXY     <-- labXY - labWH / 2
     }
     when(radius > 10) ==> { this <++ label}
   }
@@ -75,8 +81,13 @@ class Graph extends Pane {
       }
     }
     @Bind val label = new Label {
-      this.text <-- EDGE.text
-      transform <-- Translate((startC.pos + endC.pos) / 2) * Rotate(radToDegrees(dist.angle)) * Translate(-labW / 2, -5 - labH)
+      font         <-- (if(startC.focused) startC.font else endC.font)
+      this.text    <-- EDGE.text
+      textAlignment =  TextAlignment.CENTER
+      transform    <-- (
+          Translate(startC.pos + dist * 0.25 + dist.normalize * startC.radius * 2)
+        * Rotate(radToDegrees(dist.angle))
+        * Translate(-labW / 2, -5 - labH))
     }
     when(arrowLength > 5) ==> { this <++ label}
   }

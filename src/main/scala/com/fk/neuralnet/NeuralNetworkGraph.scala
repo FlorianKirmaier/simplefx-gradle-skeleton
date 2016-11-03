@@ -35,15 +35,17 @@ class NeuralNetworkGraph(view: View) extends Graph{ GRAPH =>
     val maxLayerSize = layers.map(_.neuralNetNodeList.length).max
 
     val graphRadius = minmax(0,(height - 50) / 3 / maxLayerSize,40)
-    val xOffset = graphRadius * 3 + (width - layersCount * graphRadius * 6) / 2
+    val layerOffset = width / layersCount
+    val xOffset = layerOffset / 2 + (width - layersCount * layerOffset) / 2
+
 
     layers.zipWithIndex.map { case (layer,x) =>
       val nodes = layer.neuralNetNodeList
       val numberNodes = nodes.length
       nodes.zipWithIndex.foreach { case (node,i) =>
-        val yOffset = (height / 2) + (i - numberNodes / 2) * graphRadius * 3 + graphRadius
+        val yOffset = (height / 2) + (i - numberNodes / 2) * graphRadius * 3// + graphRadius
         val id = node.id
-        val corner = cornerMap.getOrElse(id, new Corner(xOffset + x * graphRadius * 6, yOffset + (if(x % 2 == 0) graphRadius else 0)))
+        val corner = cornerMap.getOrElse(id, new Corner(xOffset + x * layerOffset, yOffset + ((x % 2) - 0.5) * graphRadius))
         corner.text = node.label
         corner.image = Image.cached(node.image)
         corner.radius = graphRadius
